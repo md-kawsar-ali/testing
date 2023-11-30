@@ -1,12 +1,25 @@
-console.log('Hello JavaScript!')
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // Fetch data from an API endpoint (replace 'your-api-endpoint' with the actual endpoint)
+        const response = await fetch('/.netlify/functions/user');
 
-fetch('/.netlify/functions/user')
-    .then(res => res.json())
-    .then(data => {
-        data?.user?.map(u => {
-            const p = document.createElement('p');
-            p.innerText = u.name;
+        if (!response.ok) {
+            throw new Error('Failed to fetch data');
+        }
 
-            document.getElementsByTagName('body').appendChild(p);
-        })
-    })
+        // Parse the JSON response
+        const data = await response.json();
+
+        // Append data to the body tag
+        const body = document.querySelector('body');
+
+        data.forEach(user => {
+            const userElement = document.createElement('h3');
+            userElement.textContent = `${user.id} : ${user.name}`; // Adjust this based on your user object structure
+            body.appendChild(userElement);
+        });
+
+    } catch (error) {
+        console.error('Error fetching and appending data:', error);
+    }
+});
