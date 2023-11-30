@@ -1,6 +1,3 @@
-export const handler: Handler = async (event, context) => {
-    return {
-        body: JSON.stringify({ message: "Hello World" }),
-        statusCode: 200
-    };
+export default async (req, context) => {
+    return new Response("Hello, world!");
 };
