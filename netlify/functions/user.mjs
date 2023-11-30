@@ -14,7 +14,12 @@ const user = [
 ]
 
 export default async (request, context) => {
-    const jsonUser = JSON.stringify(user);
 
-    return new Response({ jsonUser });
+    return new Response(JSON.stringify(user), {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        status: 200
+    }
+    );
 }
