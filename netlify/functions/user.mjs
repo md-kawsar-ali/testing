@@ -14,6 +14,7 @@ const user = [
 ]
 
 export default async (request, context) => {
-    return new Response({ user });
+    const jsonUser = JSON.stringify(user);
+
+    return new Response({ jsonUser });
 }
-  
