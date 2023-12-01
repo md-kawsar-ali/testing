@@ -46,8 +46,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 elements,
                 confirmParams: {
                     // Make sure to change this to your payment completion page
-                    return_url: "/",
-                    receipt_email: emailAddress,
+                    return_url: "https://darling-elf-017308.netlify.app/thankyou.html",
+                    receipt_email: emailAddress
                 },
             });
 
