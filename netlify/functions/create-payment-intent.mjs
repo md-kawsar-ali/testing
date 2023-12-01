@@ -2,20 +2,9 @@ import stripePackage from 'stripe';
 
 const stripe = stripePackage(Netlify.env.get("STRIPE_SECRET_KEY"));
 
-const calculateOrderAmount = (items) => {
-    if (items == "skuebook") {
-        return 20000; // Price is $20
-    }
-
-    return 20000;
-};
-
 export default async (event, context) => {
     try {
-        const { items } = JSON.parse(event.body);
-        console.log(items)
-
-        const price = calculateOrderAmount(items);
+        const price = event?.body?.items || 20000;
 
         // Create a PaymentIntent with the order amount and currency
         const paymentIntent = await stripe.paymentIntents.create({
@@ -26,17 +15,22 @@ export default async (event, context) => {
             }
         });
 
-        console.log(paymentIntent.client_secret)
+        const clientSecret = paymentIntent?.client_secret;
 
-        return new Response(JSON.stringify({ clientSecret: paymentIntent.client_secret }), {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            status: 200
+        if (clientSecret) {
+            return new Response(JSON.stringify({ clientSecret }), {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                status: 200
+            }
+            );
         }
-        );
+
+        throw new Error("Unable to genarate Client Secret Key!");
+
     } catch (error) {
-        return new Response(JSON.stringify({ message: error.message, secret: Netlify.env.get("STRIPE_SECRET_KEY") }), {
+        return new Response(JSON.stringify({ message: error.message }), {
             headers: {
                 'Content-Type': 'application/json'
             },
