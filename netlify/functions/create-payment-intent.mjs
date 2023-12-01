@@ -1,12 +1,14 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+import stripePackage from 'stripe';
 require('dotenv').config();
+
+const stripe = stripePackage(process.env.STRIPE_SECRET_KEY);
 
 const calculateOrderAmount = (items) => {
     if (items === "sku-ebook-1") {
         return (20 * 100); // Price is $20
     }
 
-    return false;
+    return 20000;
 };
 
 export default async (event, context) => {
