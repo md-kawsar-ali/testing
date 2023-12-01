@@ -1,5 +1,7 @@
 import stripePackage from 'stripe';
-require('dotenv').config();
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const stripe = stripePackage(process.env.STRIPE_SECRET_KEY);
 
