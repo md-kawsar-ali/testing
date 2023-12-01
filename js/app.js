@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const stripe = Stripe('pk_test_51L3l4bJd7KN1TpXhMtASMUShbh7mVzCAXqoxrr1jIpSHwp574QvJX0zCAQPFS5UQUtwyC1qsHYEBeZFI3nbV5p7Q004TSSOLMU');
 
         // The items the customer wants to buy
-        const items = [{ id: "sku-ebook-1" }];
+        const items = "sku-ebook-1";
 
         let elements;
 

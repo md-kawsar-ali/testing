@@ -1,7 +1,7 @@
 const stripe = require('stripe')(`${process.env.STRIPE_SECRET_KEY}`);
 
 const calculateOrderAmount = (items) => {
-    if (items[0] === "sku-ebook-1") {
+    if (items === "sku-ebook-1") {
         return (20 * 100); // Price is $20
     }
 
