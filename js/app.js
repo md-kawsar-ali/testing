@@ -37,6 +37,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         async function handleSubmit(e) {
             e.preventDefault();
+            const customerName = document.querySelector("#name");
+            const emailAddress = document.querySelector("#email");
+
             setLoading(true);
 
             const { error } = await stripe.confirmPayment({

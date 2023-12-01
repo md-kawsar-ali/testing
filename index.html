@@ -14,10 +14,12 @@
     <h1>Stripe Payment!</h1>
     <!-- Display a payment form -->
     <form id="payment-form">
-        <label for="name">Name:</label>
-        <input type="text" id="name" />
-        <label for="email">Email:</label>
-        <input type="email" id="email" />
+        <div class="fields">
+            <label for="name">Name:</label>
+            <input type="text" id="name" />
+            <label for="email">Email:</label>
+            <input type="email" id="email" />
+        </div>
 
         <div id="payment-element">
             <!--Stripe.js injects the Payment Element-->
