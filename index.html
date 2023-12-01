@@ -5,12 +5,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serverless Function</title>
+    <title>Serverless Stripe Payment with Netlify</title>
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <h1>Hello Developer!</h1>
+    <h1>Stripe Payment!</h1>
+    <!-- Display a payment form -->
+    <form id="payment-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" />
+        <label for="email">Email:</label>
+        <input type="email" id="email" />
 
+        <div id="payment-element">
+            <!--Stripe.js injects the Payment Element-->
+        </div>
+
+        <button id="submit">
+            <div class="spinner hidden" id="spinner"></div>
+            <span id="button-text">Pay now</span>
+        </button>
+        <div id="payment-message" class="hidden"></div>
+    </form>
+
+    <script src="https://js.stripe.com/v3/"></script>
     <script src="js/app.js"></script>
 </body>
 

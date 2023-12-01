@@ -1,0 +1,17 @@
+# .gitignore
+
+# Node.js
+node_modules/
+
+# Netlify Functions
+/netlify/functions/*/node_modules/
+
+# macOS
+.DS_Store
+
+# Editor-related files
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

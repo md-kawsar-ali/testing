@@ -1,0 +1,22 @@
+{
+  "name": "serverless-netlify-testing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/md-kawsar-ali/testing.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/md-kawsar-ali/testing/issues"
+  },
+  "homepage": "https://github.com/md-kawsar-ali/testing#readme",
+  "dependencies": {
+    "stripe": "^14.7.0"
+  }
+}

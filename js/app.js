@@ -1,25 +1,121 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        // Fetch data from an API endpoint (replace 'your-api-endpoint' with the actual endpoint)
-        const response = await fetch('/.netlify/functions/user');
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch data');
+    // Stripe Payment Integration
+    try {
+        const stripe = Stripe('pk_test_51L3l4bJd7KN1TpXhMtASMUShbh7mVzCAXqoxrr1jIpSHwp574QvJX0zCAQPFS5UQUtwyC1qsHYEBeZFI3nbV5p7Q004TSSOLMU');
+
+        // The items the customer wants to buy
+        const items = [{ id: "sku-ebook-1" }];
+
+        let elements;
+
+        initialize();
+        checkStatus();
+
+        document
+            .querySelector("#payment-form")
+            .addEventListener("submit", handleSubmit);
+
+        // Fetches a payment intent and captures the client secret
+        async function initialize() {
+            const response = await fetch(".netlify/functions/create-payment-intent", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ items }),
+            });
+            const { clientSecret } = await response.json();
+
+            const appearance = {
+                theme: 'stripe',
+            };
+            elements = stripe.elements({ appearance, clientSecret });
+
+            const paymentElementOptions = {
+                layout: "tabs",
+            };
+
+            const paymentElement = elements.create("payment", paymentElementOptions);
+            paymentElement.mount("#payment-element");
         }
 
-        // Parse the JSON response
-        const data = await response.json();
+        async function handleSubmit(e) {
+            e.preventDefault();
+            setLoading(true);
 
-        // Append data to the body tag
-        const body = document.querySelector('body');
+            const { error } = await stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    // Make sure to change this to your payment completion page
+                    return_url: "/",
+                    receipt_email: emailAddress,
+                },
+            });
 
-        data.forEach(user => {
-            const userElement = document.createElement('h3');
-            userElement.textContent = `${user.id} : ${user.name}`; // Adjust this based on your user object structure
-            body.appendChild(userElement);
-        });
+            if (error.type === "card_error" || error.type === "validation_error") {
+                showMessage(error.message);
+            } else {
+                showMessage("An unexpected error occurred.");
+            }
 
+            setLoading(false);
+        }
+
+        // Fetches the payment intent status after payment submission
+        async function checkStatus() {
+            const clientSecret = new URLSearchParams(window.location.search).get(
+                "payment_intent_client_secret"
+            );
+
+            if (!clientSecret) {
+                return;
+            }
+
+            const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+
+            switch (paymentIntent.status) {
+                case "succeeded":
+                    showMessage("Payment succeeded!");
+                    break;
+                case "processing":
+                    showMessage("Your payment is processing.");
+                    break;
+                case "requires_payment_method":
+                    showMessage("Your payment was not successful, please try again.");
+                    break;
+                default:
+                    showMessage("Something went wrong.");
+                    break;
+            }
+        }
+
+        // ------- UI helpers -------
+
+        function showMessage(messageText) {
+            const messageContainer = document.querySelector("#payment-message");
+
+            messageContainer.classList.remove("hidden");
+            messageContainer.textContent = messageText;
+
+            setTimeout(function () {
+                messageContainer.classList.add("hidden");
+                messageContainer.textContent = "";
+            }, 4000);
+        }
+
+        // Show a spinner on payment submission
+        function setLoading(isLoading) {
+            if (isLoading) {
+                // Disable the button and show a spinner
+                document.querySelector("#submit").disabled = true;
+                document.querySelector("#spinner").classList.remove("hidden");
+                document.querySelector("#button-text").classList.add("hidden");
+            } else {
+                document.querySelector("#submit").disabled = false;
+                document.querySelector("#spinner").classList.add("hidden");
+                document.querySelector("#button-text").classList.remove("hidden");
+            }
+        }
     } catch (error) {
-        console.error('Error fetching and appending data:', error);
+        console.error("Something went wrong: ", error)
     }
 });
