@@ -8,7 +8,7 @@ const calculateOrderAmount = (items) => {
     return false;
 };
 
-exports.handler = async (event, context) => {
+export default async (event, context) => {
     try {
         const { items } = JSON.parse(event.body);
 
