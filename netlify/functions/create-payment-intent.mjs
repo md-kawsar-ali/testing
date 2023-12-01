@@ -26,14 +26,20 @@ export default async (event, context) => {
             },
         });
 
-        return {
-            statusCode: 200,
-            body: JSON.stringify({ clientSecret: paymentIntent.client_secret }),
-        };
+        return new Response(JSON.stringify({ clientSecret: paymentIntent.client_secret }), {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            status: 200
+        }
+        );
     } catch (error) {
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: error.message }),
-        };
+        return new Response(JSON.stringify({ message: error.message }), {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            status: 500
+        }
+        );
     }
 };
