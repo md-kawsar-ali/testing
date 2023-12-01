@@ -4,9 +4,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const stripe = Stripe('pk_test_51L3l4bJd7KN1TpXhMtASMUShbh7mVzCAXqoxrr1jIpSHwp574QvJX0zCAQPFS5UQUtwyC1qsHYEBeZFI3nbV5p7Q004TSSOLMU');
 
-        // The items the customer wants to buy
-        const items = "sku-ebook-1";
-
         let elements;
 
         initialize();
@@ -21,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetch(".netlify/functions/create-payment-intent", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ items }),
+                body: JSON.stringify({ items: "skuebook" })
             });
             const { clientSecret } = await response.json();
 

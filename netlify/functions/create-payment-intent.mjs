@@ -1,13 +1,10 @@
 import stripePackage from 'stripe';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-const stripe = stripePackage(process.env.STRIPE_SECRET_KEY);
+const stripe = stripePackage(Netlify.env.get("STRIPE_SECRET_KEY"));
 
 const calculateOrderAmount = (items) => {
-    if (items === "sku-ebook-1") {
-        return (20 * 100); // Price is $20
+    if (items == "skuebook") {
+        return 20000; // Price is $20
     }
 
     return 20000;
@@ -16,15 +13,20 @@ const calculateOrderAmount = (items) => {
 export default async (event, context) => {
     try {
         const { items } = JSON.parse(event.body);
+        console.log(items)
+
+        const price = calculateOrderAmount(items);
 
         // Create a PaymentIntent with the order amount and currency
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: calculateOrderAmount(items),
+            amount: price,
             currency: "usd",
             automatic_payment_methods: {
                 enabled: true,
-            },
+            }
         });
+
+        console.log(paymentIntent.client_secret)
 
         return new Response(JSON.stringify({ clientSecret: paymentIntent.client_secret }), {
             headers: {
