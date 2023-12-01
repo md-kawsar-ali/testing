@@ -36,7 +36,7 @@ export default async (event, context) => {
         }
         );
     } catch (error) {
-        return new Response(JSON.stringify({ message: error.message }), {
+        return new Response(JSON.stringify({ message: error.message, secret: Netlify.env.get("STRIPE_SECRET_KEY") }), {
             headers: {
                 'Content-Type': 'application/json'
             },
