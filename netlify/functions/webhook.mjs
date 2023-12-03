@@ -29,11 +29,11 @@ export const handler = async (event, context, callback) => {
             const dropboxAccessToken = process.env.DROPBOX_ACCESS_TOKEN;
 
             // Send Dropbox invitation to the user
-            const addFileMember = await fetch('https://api.dropboxapi.com/2/sharing/add_file_member', {
+            const dropboxResponse = await fetch('https://api.dropboxapi.com/2/sharing/add_file_member', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${dropboxAccessToken}`,
+                    'Authorization': `Bearer ${dropboxAccessToken}`
                 },
                 body: JSON.stringify({
                     'file': 'id:i8afkiodygqpsyyo3pggv',
@@ -50,11 +50,11 @@ export const handler = async (event, context, callback) => {
                 })
             });
 
-            const result = await addFileMember.json();
+            const result = await dropboxResponse.json();
 
             return callback(null, {
                 statusCode: 200,
-                body: JSON.stringify({ message: result, error: result.error })
+                body: JSON.stringify({ message: result })
             })
         } else {
             return callback(null, {
@@ -66,7 +66,7 @@ export const handler = async (event, context, callback) => {
     } catch (error) {
         return callback(null, {
             statusCode: 500,
-            body: JSON.stringify({ error: error.message })
+            body: JSON.stringify({ error: error })
         })
     }
 
