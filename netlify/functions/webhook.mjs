@@ -43,17 +43,11 @@ export const handler = async (event, context, callback) => {
                 },
                 body: JSON.stringify({
                     path: filePath,
-                    settings: settings,
-                }),
+                    settings: settings
+                })
             });
 
             const dropboxData = await dropboxResponse.json();
-
-
-            return callback(null, {
-                statusCode: 200,
-                body: JSON.stringify({ message: dropboxData })
-            })
 
             // Send Dropbox invitation to the user
             await fetch('https://api.dropboxapi.com/2/sharing/add_file_member', {
@@ -66,7 +60,7 @@ export const handler = async (event, context, callback) => {
                     'file': dropboxData.id,
                     'access_level': 'viewer',
                     'add_message_as_comment': false,
-                    members: [
+                    'members': [
                         {
                             '.tag': 'email',
                             'email': dropboxUserEmail,
