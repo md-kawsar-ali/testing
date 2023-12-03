@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 // import stripePackage from 'stripe';
 import { parse } from 'querystring'
 
-const stripe = stripePackage(Netlify.env.get("STRIPE_SECRET_KEY"));
+// const stripe = stripePackage(Netlify.env.get("STRIPE_SECRET_KEY"));
 
 exports.handler = async (event, context, callback) => {
     try {
