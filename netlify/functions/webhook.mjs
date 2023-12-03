@@ -1,6 +1,5 @@
 import fetch from 'node-fetch';
-
-const netlifyDropboxToken = Netlify.env.get("DROPBOX_ACCESS_TOKEN");
+import 'dotenv/config';
 
 export const handler = async (event, context, callback) => {
 
@@ -27,7 +26,7 @@ export const handler = async (event, context, callback) => {
             const dropboxUserEmail = stripeCustomer.email;
 
             // Get a Dropbox access token (replace with your Dropbox app credentials)
-            const dropboxAccessToken = netlifyDropboxToken;
+            const dropboxAccessToken = process.env.DROPBOX_ACCESS_TOKEN;
 
             // Specify the Dropbox file path and settings
             const filePath = '/Paradoxical_Sajid-1.pdf';
