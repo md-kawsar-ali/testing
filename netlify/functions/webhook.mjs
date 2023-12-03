@@ -48,13 +48,27 @@ export const handler = async (event, context, callback) => {
                 })
             });
 
-            let result;
             try {
-                result = await dropboxResponse.json();
+                const result = await dropboxResponse.json();
+                console.log('Dropbox Response:', result);
+
+                if (dropboxResponse.ok) {
+                    // Successful response
+                    return callback(null, {
+                        statusCode: 200,
+                        body: JSON.stringify({ message: result })
+                    });
+                } else {
+                    // Handle non-successful response
+                    return callback(null, {
+                        statusCode: dropboxResponse.status,
+                        body: JSON.stringify({ message: 'Non-200 status code from Dropbox', error: result })
+                    });
+                }
             } catch (jsonError) {
-                // Handle non-JSON response here
+                // Handle JSON parsing error
                 return callback(null, {
-                    statusCode: dropboxResponse.status,
+                    statusCode: 500,
                     body: JSON.stringify({ error: jsonError.message })
                 });
             }
