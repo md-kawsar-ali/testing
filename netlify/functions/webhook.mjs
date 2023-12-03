@@ -28,33 +28,6 @@ export const handler = async (event, context, callback) => {
             // Get a Dropbox access token (replace with your Dropbox app credentials)
             const dropboxAccessToken = process.env.DROPBOX_ACCESS_TOKEN;
 
-            // Specify the Dropbox file path and settings
-            const filePath = '/Paradoxical_Sajid-1.pdf';
-            const settings = {
-                'access': 'viewer', // Choose the appropriate access level
-                'allow_download': true
-            };
-
-            // Create a shared link with specified access settings
-            const dropboxResponse = await fetch('https://api.dropboxapi.com/2/sharing/create_shared_link_with_settings', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${dropboxAccessToken}`,
-                },
-                body: JSON.stringify({
-                    path: filePath,
-                    settings: settings
-                })
-            });
-
-            const dropboxData = await dropboxResponse.json();
-
-            return callback(null, {
-                statusCode: 200,
-                body: JSON.stringify({ message: dropboxData })
-            })
-
             // Send Dropbox invitation to the user
             const addFileMember = await fetch('https://api.dropboxapi.com/2/sharing/add_file_member', {
                 method: 'POST',
@@ -63,7 +36,7 @@ export const handler = async (event, context, callback) => {
                     'Authorization': `Bearer ${dropboxAccessToken}`,
                 },
                 body: JSON.stringify({
-                    'file': dropboxData.id,
+                    'file': 'i8afkiodygqpsyyo3pggv',
                     'access_level': 'viewer',
                     'add_message_as_comment': false,
                     'members': [
