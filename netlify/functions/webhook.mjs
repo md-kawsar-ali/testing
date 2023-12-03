@@ -1,12 +1,18 @@
 import fetch from 'node-fetch';
-import stripePackage from 'stripe';
+// import stripePackage from 'stripe';
+import { parse } from 'querystring'
 
 const stripe = stripePackage(Netlify.env.get("STRIPE_SECRET_KEY"));
 
-export default async (event, context) => {
+exports.handler = async (event, context, callback) => {
     try {
         const { body } = event;
-        const stripeEvent = JSON.parse(body);
+        const stripeEvent = JSON.parse(body) || parse(body);
+
+        return callback(null, {
+            statusCode: 200,
+            body: JSON.stringify(stripeEvent)
+        })
 
         // Handle successful checkout session completion
         if (stripeEvent.type === 'checkout.session.completed') {
@@ -82,13 +88,10 @@ export default async (event, context) => {
         }
         );
     } catch (error) {
-        return new Response(JSON.stringify({ message: 'Internal Server Error!' }), {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            status: 500
-        }
-        );
+        return callback(null, {
+            statusCode: 500,
+            body: JSON.stringify(error)
+        })
     }
 
 };
