@@ -48,7 +48,16 @@ export const handler = async (event, context, callback) => {
                 })
             });
 
-            const result = await dropboxResponse.json();
+            let result;
+            try {
+                result = await dropboxResponse.json();
+            } catch (jsonError) {
+                // Handle non-JSON response here
+                return callback(null, {
+                    statusCode: dropboxResponse.status,
+                    body: JSON.stringify({ error: jsonError.message })
+                });
+            }
 
             return callback(null, {
                 statusCode: 200,
