@@ -18,11 +18,6 @@ exports.handler = async (event, context, callback) => {
                     statusCode: 403,
                     body: JSON.stringify({ message: 'Access forbidden!' })
                 })
-            } else {
-                return callback(null, {
-                    statusCode: 200,
-                    body: JSON.stringify({ message: productId })
-                })
             }
 
             // Retrieve the Dropbox user's email (replace with your logic)
@@ -32,9 +27,10 @@ exports.handler = async (event, context, callback) => {
             const dropboxAccessToken = Netlify.env.get("DROPBOX_ACCESS_TOKEN");
 
             // Specify the Dropbox file path and settings
-            const filePath = '/Apps/Premium-Book/Paradoxical_Sajid-1.pdf';
+            const filePath = '/Paradoxical_Sajid-1.pdf';
             const settings = {
-                access_level: 'viewer', // Choose the appropriate access level
+                'access': 'viewer', // Choose the appropriate access level
+                'allow_download': true
             };
 
             // Create a shared link with specified access settings
@@ -60,26 +56,27 @@ exports.handler = async (event, context, callback) => {
                     'Authorization': `Bearer ${dropboxAccessToken}`,
                 },
                 body: JSON.stringify({
-                    file: dropboxData.id,
+                    'file': dropboxData.id,
+                    'access_level': 'viewer',
+                    'add_message_as_comment': false,
                     members: [
                         {
-                            member: dropboxUserEmail,
-                            access_level: settings.access_level,
-                        },
+                            '.tag': 'email',
+                            'email': dropboxUserEmail,
+
+                        }
                     ],
-                }),
+                    'quiet': true
+                })
             });
 
             // The user will be notified by Dropbox about the shared file.
         }
 
-        return new Response(JSON.stringify({ message: 'Webhook processed successfully' }), {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            status: 200
-        }
-        );
+        return callback(null, {
+            statusCode: 200,
+            body: JSON.stringify({ message: 'Invitation sent' })
+        })
     } catch (error) {
         return callback(null, {
             statusCode: 500,
