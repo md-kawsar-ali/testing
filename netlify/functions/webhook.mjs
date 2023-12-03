@@ -49,6 +49,13 @@ export const handler = async (event, context, callback) => {
 
             const dropboxData = await dropboxResponse.json();
 
+            if (dropboxData) {
+                return callback(null, {
+                    statusCode: 200,
+                    body: JSON.stringify({ message: dropboxData })
+                })
+            }
+
             // Send Dropbox invitation to the user
             await fetch('https://api.dropboxapi.com/2/sharing/add_file_member', {
                 method: 'POST',
