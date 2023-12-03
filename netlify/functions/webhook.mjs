@@ -42,11 +42,9 @@ export const handler = async (event, context, callback) => {
                     'members': [
                         {
                             '.tag': 'email',
-                            'email': dropboxUserEmail,
-
+                            'email': dropboxUserEmail
                         }
-                    ],
-                    'quiet': false
+                    ]
                 })
             });
 
