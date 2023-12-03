@@ -36,23 +36,23 @@ export const handler = async (event, context, callback) => {
                     'Authorization': `Bearer ${dropboxAccessToken}`
                 },
                 body: JSON.stringify({
-                    file: 'id:i8afkiodygqpsyyo3pggv',
-                    access_level: 'viewer',
-                    add_message_as_comment: false,
-                    members: [
+                    "file": "id:pjoPbWqShWAAAAAAAAAACA",
+                    "access_level": "viewer",
+                    "members": [
                         {
-                            email: dropboxUserEmail
+                            ".tag": "email",
+                            "email": dropboxUserEmail
                         }
                     ]
                 })
             });
 
-            const result = await dropboxResponse.json();
-
-            return callback(null, {
-                statusCode: 200,
-                body: JSON.stringify({ message: result })
-            })
+            if (dropboxResponse.status === 200) {
+                return callback(null, {
+                    statusCode: 200,
+                    body: JSON.stringify({ message: "Invitation Sent!" })
+                })
+            }
         } else {
             return callback(null, {
                 statusCode: 403,
