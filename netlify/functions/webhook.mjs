@@ -7,7 +7,7 @@ import { parse } from 'querystring'
 exports.handler = async (event, context, callback) => {
     try {
         const { body } = event;
-        const stripeEvent = JSON.parse(body) || parse(body);
+        const stripeEvent = JSON.parse(body);
 
         return callback(null, {
             statusCode: 200,
