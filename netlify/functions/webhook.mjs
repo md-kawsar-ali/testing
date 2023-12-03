@@ -68,7 +68,7 @@ export const handler = async (event, context, callback) => {
 
                         }
                     ],
-                    'quiet': true
+                    'quiet': false
                 })
             });
 
