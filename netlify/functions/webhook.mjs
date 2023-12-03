@@ -81,16 +81,17 @@ export const handler = async (event, context, callback) => {
                 statusCode: 200,
                 body: JSON.stringify({ message: 'Invitation sent' })
             })
+        } else {
+            return callback(null, {
+                statusCode: 403,
+                body: JSON.stringify({ message: 'Access Forbidden!' })
+            })
         }
 
-        return callback(null, {
-            statusCode: 403,
-            body: JSON.stringify({ message: 'Access Forbidden!' })
-        })
     } catch (error) {
         return callback(null, {
             statusCode: 500,
-            body: JSON.stringify({ error })
+            body: JSON.stringify({ error: error.message })
         })
     }
 
