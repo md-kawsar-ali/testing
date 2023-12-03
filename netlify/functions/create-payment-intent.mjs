@@ -4,7 +4,16 @@ const stripe = stripePackage(Netlify.env.get("STRIPE_SECRET_KEY"));
 
 export default async (event, context) => {
     try {
-        const price = event?.body?.items || 999;
+        const body = JSON.parse(event.body);
+        const item = body.items;
+
+        let price = 0;
+
+        if (item === 'skuebook') {
+            price += 999
+        } else {
+            throw error;
+        }
 
         // Create a PaymentIntent with the order amount and currency
         const paymentIntent = await stripe.paymentIntents.create({
