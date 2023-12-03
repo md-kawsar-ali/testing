@@ -36,7 +36,7 @@ export const handler = async (event, context, callback) => {
                     'Authorization': `Bearer ${dropboxAccessToken}`,
                 },
                 body: JSON.stringify({
-                    'file': 'i8afkiodygqpsyyo3pggv',
+                    'file': 'id:i8afkiodygqpsyyo3pggv',
                     'access_level': 'viewer',
                     'add_message_as_comment': false,
                     'members': [
@@ -54,7 +54,7 @@ export const handler = async (event, context, callback) => {
 
             return callback(null, {
                 statusCode: 200,
-                body: JSON.stringify({ message: result })
+                body: JSON.stringify({ message: result, error: result.error })
             })
         } else {
             return callback(null, {
