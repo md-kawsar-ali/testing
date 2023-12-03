@@ -70,12 +70,15 @@ exports.handler = async (event, context, callback) => {
                 })
             });
 
-            // The user will be notified by Dropbox about the shared file.
+            return callback(null, {
+                statusCode: 200,
+                body: JSON.stringify({ message: 'Invitation sent' })
+            })
         }
 
         return callback(null, {
-            statusCode: 200,
-            body: JSON.stringify({ message: 'Invitation sent' })
+            statusCode: 403,
+            body: JSON.stringify({ message: 'Access Forbidden!' })
         })
     } catch (error) {
         return callback(null, {
