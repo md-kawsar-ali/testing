@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 
-exports.handler = async (event, context, callback) => {
+export const handler = async (event, context, callback) => {
+
     try {
         const { body } = event;
         const stripeEvent = JSON.parse(body);
