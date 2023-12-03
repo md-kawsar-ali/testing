@@ -13,8 +13,18 @@ export default async (event, context) => {
             const session = stripeEvent.data.object;
 
             // Retrieve customer details from the checkout session
-            const stripeCustomerId = session.customer;
-            const stripeCustomer = await stripe.customers.retrieve(stripeCustomerId);
+            const stripeCustomer = session.customer_details;
+            const productId = session.metadata.product_id;
+
+            if (productId !== "ebook101") {
+                return new Response(JSON.stringify({ message: 'Access forbidden!' }), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    status: 403
+                }
+                );
+            }
 
             // Retrieve the Dropbox user's email (replace with your logic)
             const dropboxUserEmail = stripeCustomer.email;
