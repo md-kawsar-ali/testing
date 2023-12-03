@@ -36,42 +36,18 @@ export const handler = async (event, context, callback) => {
                     'Authorization': `Bearer ${dropboxAccessToken}`
                 },
                 body: JSON.stringify({
-                    'file': 'id:i8afkiodygqpsyyo3pggv',
-                    'access_level': 'viewer',
-                    'add_message_as_comment': false,
-                    'members': [
+                    file: 'id:i8afkiodygqpsyyo3pggv',
+                    access_level: 'viewer',
+                    add_message_as_comment: false,
+                    members: [
                         {
-                            '.tag': 'email',
-                            'email': dropboxUserEmail
+                            email: dropboxUserEmail
                         }
                     ]
                 })
             });
 
-            try {
-                const result = await dropboxResponse.json();
-                console.log('Dropbox Response:', result);
-
-                if (dropboxResponse.ok) {
-                    // Successful response
-                    return callback(null, {
-                        statusCode: 200,
-                        body: JSON.stringify({ message: result })
-                    });
-                } else {
-                    // Handle non-successful response
-                    return callback(null, {
-                        statusCode: dropboxResponse.status,
-                        body: JSON.stringify({ message: 'Non-200 status code from Dropbox', error: result })
-                    });
-                }
-            } catch (jsonError) {
-                // Handle JSON parsing error
-                return callback(null, {
-                    statusCode: 500,
-                    body: JSON.stringify({ error: jsonError.message })
-                });
-            }
+            const result = await dropboxResponse.json();
 
             return callback(null, {
                 statusCode: 200,
