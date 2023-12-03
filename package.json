@@ -18,6 +18,7 @@
   "homepage": "https://github.com/md-kawsar-ali/testing#readme",
   "dependencies": {
     "dotenv": "^16.3.1",
+    "node-fetch": "^3.3.2",
     "stripe": "^14.7.0"
   }
 }
