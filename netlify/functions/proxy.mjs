@@ -61,20 +61,23 @@ function cleanUpHTML(html) {
     // Load HTML into cheerio
     const $ = cheerio.load(html);
 
+    // Get the base URL of the original website
+    const baseUrl = 'https://allthewheyup.com'; // Replace with the actual base URL
+
     // Fix resource paths in the HTML
     $('img').each((index, element) => {
         const src = $(element).attr('src');
-        if (src && !src.startsWith('http') && !src.startsWith('/')) {
-            // Update relative paths
-            $(element).attr('src', '/' + src);
+        if (src && src.startsWith('/')) {
+            // Update absolute paths
+            $(element).attr('src', baseUrl + src);
         }
     });
 
     $('link[rel="stylesheet"]').each((index, element) => {
         const href = $(element).attr('href');
-        if (href && !href.startsWith('http') && !href.startsWith('/')) {
-            // Update relative paths
-            $(element).attr('href', '/' + href);
+        if (href && href.startsWith('/')) {
+            // Update absolute paths
+            $(element).attr('href', baseUrl + href);
         }
     });
 
