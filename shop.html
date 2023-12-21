@@ -12,8 +12,15 @@
     <div id="external-content"></div>
     <script>
         fetch('/.netlify/functions/proxy')
-            .then(response => response.json())
-            .then(data => document.getElementById('external-content').innerHTML = JSON.stringify(data));
+            .then(response => response.text())
+            .then(data => {
+                // Inject the content into the 'external-content' div
+                document.getElementById('external-content').innerHTML = atob(data); // Decode base64
+            })
+            .catch(error => {
+                console.error('Error fetching content:', error);
+                // Handle the error as needed
+            });
     </script>
 </body>
 
