@@ -67,7 +67,7 @@ function cleanUpHTML(html) {
     // Fix resource paths in the HTML
     $('img').each((index, element) => {
         const src = $(element).attr('src');
-        if (src && !src.startsWith('http')) {
+        if (src && !src.startsWith('http') && !src.startsWith('//')) {
             // Update absolute paths
             if (!src.startsWith('/')) {
                 $(element).attr('src', baseUrl + '/' + src);
@@ -79,12 +79,24 @@ function cleanUpHTML(html) {
 
     $('link[rel="stylesheet"]').each((index, element) => {
         const href = $(element).attr('href');
-        if (href && !href.startsWith('http')) {
+        if (href && !href.startsWith('http') && !href.startsWith('//')) {
             // Update absolute paths
             if (!href.startsWith('/')) {
                 $(element).attr('href', baseUrl + '/' + href);
             } else {
                 $(element).attr('href', baseUrl + href);
+            }
+        }
+    });
+
+    $('script').each((index, element) => {
+        const src = $(element).attr('src');
+        if (src && !src.startsWith('http') && !src.startsWith('//')) {
+            // Update absolute paths for script tags
+            if (!src.startsWith('/')) {
+                $(element).attr('src', baseUrl + '/' + src);
+            } else {
+                $(element).attr('src', baseUrl + src);
             }
         }
     });
