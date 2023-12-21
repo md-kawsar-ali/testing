@@ -67,7 +67,7 @@ function cleanUpHTML(html) {
     // Fix resource paths in the HTML
     $('img').each((index, element) => {
         const src = $(element).attr('src');
-        if (src && src.startsWith('/')) {
+        if (src && !src.startsWith('http')) {
             // Update absolute paths
             $(element).attr('src', baseUrl + src);
         }
@@ -75,7 +75,7 @@ function cleanUpHTML(html) {
 
     $('link[rel="stylesheet"]').each((index, element) => {
         const href = $(element).attr('href');
-        if (href && href.startsWith('/')) {
+        if (href && !href.startsWith('http')) {
             // Update absolute paths
             $(element).attr('href', baseUrl + href);
         }
