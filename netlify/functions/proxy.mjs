@@ -35,10 +35,13 @@ exports.handler = async function (event, context) {
         // Return the cleaned HTML as the response
         return {
             statusCode: 200,
-            body: cleanedHTML,
             headers: {
-                'Content-Type': 'text/html',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, OPTIONS',
+                'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Accept',
+                'Content-Type': 'text/html'
             },
+            body: cleanedHTML
         };
     } catch (error) {
         console.error('Error fetching content:', error);
