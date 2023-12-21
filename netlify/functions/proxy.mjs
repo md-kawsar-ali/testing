@@ -69,7 +69,11 @@ function cleanUpHTML(html) {
         const src = $(element).attr('src');
         if (src && !src.startsWith('http')) {
             // Update absolute paths
-            $(element).attr('src', baseUrl + src);
+            if (!src.startsWith('/')) {
+                $(element).attr('src', baseUrl + '/' + src);
+            } else {
+                $(element).attr('src', baseUrl + src);
+            }
         }
     });
 
@@ -77,7 +81,11 @@ function cleanUpHTML(html) {
         const href = $(element).attr('href');
         if (href && !href.startsWith('http')) {
             // Update absolute paths
-            $(element).attr('href', baseUrl + href);
+            if (!href.startsWith('/')) {
+                $(element).attr('href', baseUrl + '/' + href);
+            } else {
+                $(element).attr('href', baseUrl + href);
+            }
         }
     });
 
