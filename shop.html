@@ -20,11 +20,8 @@
                 return response.text();
             })
             .then(data => {
-                // Decode base64
-                const decodedData = atob(data);
-
-                // Inject the decoded content into the 'external-content' div
-                document.getElementById('external-content').innerHTML = decodedData;
+                // Inject the content into the 'external-content' div
+                document.getElementById('external-content').innerHTML = data;
             })
             .catch(error => {
                 console.error(error.message);
