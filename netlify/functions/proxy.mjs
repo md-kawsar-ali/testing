@@ -92,7 +92,7 @@ function cleanUpHTML(html) {
     // Clean up the HTML as needed
     // For example, remove unnecessary elements, attributes, or whitespace
     // Here, we're removing script tags for demonstration purposes
-    $('script').remove();
+    // $('script').remove();
 
     // Return the cleaned HTML
     return $.html();
