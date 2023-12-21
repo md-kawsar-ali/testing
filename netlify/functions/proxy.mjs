@@ -29,7 +29,7 @@ exports.handler = async function (event, context) {
     } catch (error) {
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: 'Error fetching content' }),
+            body: JSON.stringify({ error: error }),
         };
     }
 };
