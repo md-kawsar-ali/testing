@@ -61,6 +61,23 @@ function cleanUpHTML(html) {
     // Load HTML into cheerio
     const $ = cheerio.load(html);
 
+    // Fix resource paths in the HTML
+    $('img').each((index, element) => {
+        const src = $(element).attr('src');
+        if (src && !src.startsWith('http') && !src.startsWith('/')) {
+            // Update relative paths
+            $(element).attr('src', '/' + src);
+        }
+    });
+
+    $('link[rel="stylesheet"]').each((index, element) => {
+        const href = $(element).attr('href');
+        if (href && !href.startsWith('http') && !href.startsWith('/')) {
+            // Update relative paths
+            $(element).attr('href', '/' + href);
+        }
+    });
+
     // Clean up the HTML as needed
     // For example, remove unnecessary elements, attributes, or whitespace
     // Here, we're removing script tags for demonstration purposes
