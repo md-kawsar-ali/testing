@@ -7,7 +7,7 @@ exports.handler = async function (event, context) {
         return {
             statusCode: 200,
             headers: {
-                'Access-Control-Allow-Origin': 'your-netlify-site-url',
+                'Access-Control-Allow-Origin': 'https://darling-elf-017308.netlify.app',
                 'Access-Control-Allow-Methods': 'GET, OPTIONS',
                 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
             },
