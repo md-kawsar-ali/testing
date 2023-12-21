@@ -39,6 +39,11 @@ exports.handler = async function (event, context) {
         // Return the HTML content as a buffer
         return {
             statusCode: 200,
+            headers: {
+                'Access-Control-Allow-Origin': 'https://darling-elf-017308.netlify.app',
+                'Access-Control-Allow-Methods': 'GET, OPTIONS',
+                'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+            },
             body: response.data.toString('base64'),
             isBase64Encoded: true,
         };
