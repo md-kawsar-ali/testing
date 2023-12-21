@@ -8,9 +8,22 @@
     <title>Shop</title>
 </head>
 
+<style>
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+    }
+</style>
+
 <body>
-    <div id="external-content"></div>
-    <script>
+    <iframe src="https://darling-elf-017308.netlify.app/.netlify/functions/proxy" frameborder="0" height="100%"
+        width="100%"></iframe>
+
+    <!-- <div id="external-content"></div> -->
+    <!--- <script>
         // Fetch content from the Netlify function
         fetch('/.netlify/functions/proxy')
             .then(response => {
@@ -20,14 +33,12 @@
                 return response.text();
             })
             .then(data => {
-                // Inject the content into the 'external-content' div
                 document.getElementById('external-content').innerHTML = data;
             })
             .catch(error => {
                 console.error(error.message);
-                // Handle the error as needed
             });
-    </script>
+    </script> -->
 </body>
 
 </html>
