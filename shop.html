@@ -11,14 +11,23 @@
 <body>
     <div id="external-content"></div>
     <script>
+        // Fetch content from the Netlify function
         fetch('/.netlify/functions/proxy')
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error fetching content: ${response.statusText}`);
+                }
+                return response.text();
+            })
             .then(data => {
-                // Inject the content into the 'external-content' div
-                document.getElementById('external-content').innerHTML = atob(data); // Decode base64
+                // Decode base64
+                const decodedData = atob(data);
+
+                // Inject the decoded content into the 'external-content' div
+                document.getElementById('external-content').innerHTML = decodedData;
             })
             .catch(error => {
-                console.error('Error fetching content:', error);
+                console.error(error.message);
                 // Handle the error as needed
             });
     </script>
